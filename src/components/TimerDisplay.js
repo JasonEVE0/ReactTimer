@@ -14,7 +14,7 @@ function TimerDisplay(props){
 
   return (
     <h2>{hoursStringFormat}:{minutesStringFormat}:{secondsStringFormat}</h2>
-  )
+  );
 }
 
 export default TimerDisplay;

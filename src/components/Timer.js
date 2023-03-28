@@ -1,38 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import TimerDisplay from "./TimerDisplay";
 import StartToggle from "./StartToggle";
 import ResetButton from "./ResetButton";
 import CountdownButton from "./CountdownButton";
+import CountdownInputs from "./CountdownInputs";
 
 import '../styles/timer.css';
 
 function Timer(){
 
-  let [time, setTime] = useState(0);
-  let [timerActive, setTimerActive] = useState(false);
-  let [timerInterval, setTimerInterval] = useState();
+  const [time, setTime] = useState(0);
+  const [timerActive, setTimerActive] = useState(false);
+  const [timerInterval, setTimerInterval] = useState();
+  const [countdownActive, setCountdownActive] = useState(false);
 
-  // this function executes everytime the start/pause button is clicked, if the start button is clicked a
-  // new interval will begin to increment the time every second. If the pause button is cliciked the interval
-  // will be cleared.
-  function toggleTimer(){
+  useEffect(() => {
     if (timerActive){
-      clearTimer();
+      setTimerInterval(setInterval(() => {
+        setTime(time => time + 1);
+      }, 1000));
     } else {
-      setTimerInterval(setInterval(() => setTime(++time), 1000));
-      setTimerActive(true);
-    }
+      clearInterval(timerInterval);
+  }
+  }, [timerActive]);
+
+  function toggleTimer(){
+    timerActive ? setTimerActive(false) : setTimerActive(true);
   }
 
   function resetTimer(){
-    clearTimer();
-    setTime(0);
-  }
-
-  function clearTimer(){
-    clearInterval(timerInterval);
     setTimerActive(false);
+    setTime(0);
   }
 
   return (
@@ -40,11 +39,15 @@ function Timer(){
       <div className="display-container">
         <TimerDisplay time={time} />
       </div>
+      { countdownActive ? (
+          <CountdownInputs />
+      ) : (
       <div className="button-container">
         <StartToggle onClickToggle={toggleTimer} isTimerActive={timerActive} />
         <ResetButton reset={resetTimer} />
         <CountdownButton />
       </div>
+      )}
     </div>
   );
 }
