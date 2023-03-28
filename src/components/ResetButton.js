@@ -1,8 +1,8 @@
 import React from "react";
 
-function ResetButton(){
+function ResetButton(props){
   return (
-    <button className="timer-button">Reset</button>
+    <button className="timer-button" onClick={props.reset}>Reset</button>
   )
 }
 

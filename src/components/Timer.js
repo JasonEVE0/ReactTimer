@@ -18,12 +18,21 @@ function Timer(){
   // will be cleared.
   function toggleTimer(){
     if (timerActive){
-      clearInterval(timerInterval);
-      setTimerActive(false);
+      clearTimer();
     } else {
       setTimerInterval(setInterval(() => setTime(++time), 1000));
       setTimerActive(true);
     }
+  }
+
+  function resetTimer(){
+    clearTimer();
+    setTime(0);
+  }
+
+  function clearTimer(){
+    clearInterval(timerInterval);
+    setTimerActive(false);
   }
 
   return (
@@ -33,7 +42,7 @@ function Timer(){
       </div>
       <div className="button-container">
         <StartToggle onClickToggle={toggleTimer} isTimerActive={timerActive} />
-        <ResetButton />
+        <ResetButton reset={resetTimer} />
         <CountdownButton />
       </div>
     </div>
