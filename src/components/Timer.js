@@ -18,13 +18,13 @@ function Timer(){
 
   /**
    * useEffect hook that will put the timer in a incrementing/decrementing state or pause state.
-   * When the direction variable is greater than or equal to zero the timer will move forwards, when the direction 
+   * When the direction variable is greater than zero the timer will move forwards, when the direction 
    * variable is less than zero it will move backwards.
    */
   useEffect(() => {
     if (timerActive){
       setTimerInterval(setInterval(() => {
-        if (direction >= 0){
+        if (direction > 0){
           setTime(time => time + 1);
         } else {
           setTime(time => time - 1);
@@ -36,28 +36,54 @@ function Timer(){
   }, [timerActive]);
 
   /**
+   * Use effect hook that will signal when the timer has ticked down to 0
+   */
+  useEffect(() => {
+    if (time <= 0) {
+      console.log("stopwatch complete")
+      setTimerActive(false);
+      setDirection(1);
+    }
+  }, [time]);
+
+  /**
    * Toggles the timer between a incrementing/decrementing state or pause state.
    */
   function toggleTimer(){
     timerActive ? setTimerActive(false) : setTimerActive(true);
   }
 
+  /**
+   * Pauses the timer and sets the time to 00:00:00
+   */
   function resetTimer(){
     setTimerActive(false);
     setTime(0);
+    setDirection(1);
   }
 
+  /**
+   * Displays the countdown input menu
+   */
   function displayCountdownWindow(){
     setCountdownActive(true);
+    setTimerActive(false);
   }
 
+  /**
+   * Closes the countdown input menu
+   */
   function closeCountdownWindow(){
     setCountdownActive(false);
   }
 
+  /**
+   * Sets the timer from the countdown inputs and flips the timer direction
+   */
   function setCountdown(hours, minutes, seconds){
     let totalSeconds = (hours * (60**2)) + (minutes * 60) + seconds;
     setTime(totalSeconds);
+    setDirection(-1);
     setTimerActive(true);
   }
 
