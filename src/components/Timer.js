@@ -22,7 +22,7 @@ function Timer(){
       }, 1000));
     } else {
       clearInterval(timerInterval);
-  }
+    }
   }, [timerActive]);
 
   function toggleTimer(){
@@ -34,18 +34,32 @@ function Timer(){
     setTime(0);
   }
 
+  function displayCountdownWindow(){
+    setCountdownActive(true);
+  }
+
+  function closeCountdownWindow(){
+    setCountdownActive(false);
+  }
+
+  function setCountdown(hours, minutes, seconds){
+    let totalSeconds = (hours * (60**2)) + (minutes * 60) + seconds;
+    setTime(totalSeconds);
+    setTimerActive(true);
+  }
+
   return (
     <div className="timer-container">
       <div className="display-container">
         <TimerDisplay time={time} />
       </div>
       { countdownActive ? (
-          <CountdownInputs />
+          <CountdownInputs setCountdown={setCountdown} turnOffCountdown={closeCountdownWindow} />
       ) : (
       <div className="button-container">
         <StartToggle onClickToggle={toggleTimer} isTimerActive={timerActive} />
         <ResetButton reset={resetTimer} />
-        <CountdownButton />
+        <CountdownButton countdownActiveOnClick={displayCountdownWindow}/>
       </div>
       )}
     </div>
