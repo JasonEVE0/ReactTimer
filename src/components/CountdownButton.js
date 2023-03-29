@@ -1,9 +1,9 @@
 import React from "react";
 
-function CountdownButton(){
+function CountdownButton(props){
   return (
-    <button className="timer-button">Countdown</button>
-  )
+    <button className="timer-button" onClick={props.countdownActiveOnClick}>Countdown</button>
+  );
 }
 
 export default CountdownButton;

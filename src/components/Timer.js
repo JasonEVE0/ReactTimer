@@ -1,38 +1,90 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import TimerDisplay from "./TimerDisplay";
 import StartToggle from "./StartToggle";
 import ResetButton from "./ResetButton";
 import CountdownButton from "./CountdownButton";
+import CountdownInputs from "./CountdownInputs";
 
 import '../styles/timer.css';
 
 function Timer(){
 
-  let [time, setTime] = useState(0);
-  let [timerActive, setTimerActive] = useState(false);
-  let [timerInterval, setTimerInterval] = useState();
+  const [time, setTime] = useState(0);
+  const [timerActive, setTimerActive] = useState(false);
+  const [timerInterval, setTimerInterval] = useState();
+  const [countdownActive, setCountdownActive] = useState(false);
+  const [direction, setDirection] = useState(1);
 
-  // this function executes everytime the start/pause button is clicked, if the start button is clicked a
-  // new interval will begin to increment the time every second. If the pause button is cliciked the interval
-  // will be cleared.
-  function toggleTimer(){
+  /**
+   * useEffect hook that will put the timer in a incrementing/decrementing state or pause state.
+   * When the direction variable is greater than zero the timer will move forwards, when the direction 
+   * variable is less than zero it will move backwards.
+   */
+  useEffect(() => {
     if (timerActive){
-      clearTimer();
+      setTimerInterval(setInterval(() => {
+        if (direction > 0){
+          setTime(time => time + 1);
+        } else {
+          setTime(time => time - 1);
+        }
+      }, 1000));
     } else {
-      setTimerInterval(setInterval(() => setTime(++time), 1000));
-      setTimerActive(true);
+      clearInterval(timerInterval);
     }
+  }, [timerActive]);
+
+  /**
+   * Use effect hook that will signal when the timer has ticked down to 0
+   */
+  useEffect(() => {
+    if (time <= 0) {
+      console.log("stopwatch complete")
+      setTimerActive(false);
+      setDirection(1);
+    }
+  }, [time]);
+
+  /**
+   * Toggles the timer between a incrementing/decrementing state or pause state.
+   */
+  function toggleTimer(){
+    timerActive ? setTimerActive(false) : setTimerActive(true);
   }
 
+  /**
+   * Pauses the timer and sets the time to 00:00:00
+   */
   function resetTimer(){
-    clearTimer();
+    setTimerActive(false);
     setTime(0);
+    setDirection(1);
   }
 
-  function clearTimer(){
-    clearInterval(timerInterval);
+  /**
+   * Displays the countdown input menu
+   */
+  function displayCountdownWindow(){
+    setCountdownActive(true);
     setTimerActive(false);
+  }
+
+  /**
+   * Closes the countdown input menu
+   */
+  function closeCountdownWindow(){
+    setCountdownActive(false);
+  }
+
+  /**
+   * Sets the timer from the countdown inputs and flips the timer direction
+   */
+  function setCountdown(hours, minutes, seconds){
+    let totalSeconds = (hours * (60**2)) + (minutes * 60) + seconds;
+    setTime(totalSeconds);
+    setDirection(-1);
+    setTimerActive(true);
   }
 
   return (
@@ -40,11 +92,15 @@ function Timer(){
       <div className="display-container">
         <TimerDisplay time={time} />
       </div>
+      { countdownActive ? (
+          <CountdownInputs setCountdown={setCountdown} turnOffCountdown={closeCountdownWindow} />
+      ) : (
       <div className="button-container">
         <StartToggle onClickToggle={toggleTimer} isTimerActive={timerActive} />
         <ResetButton reset={resetTimer} />
-        <CountdownButton />
+        <CountdownButton countdownActiveOnClick={displayCountdownWindow}/>
       </div>
+      )}
     </div>
   );
 }

@@ -3,7 +3,7 @@
     border-radius: 10px;
     width: 20%;
     overflow: hidden;
-    min-width: 125px;
+    min-width: 205px;
 }
 
 .display-container {
@@ -21,6 +21,26 @@
     justify-content: space-around;
     padding: 1rem 0;
     background-color: black;
+}
+
+.countdown-container {
+    background-color: black;
+    text-align: center;
+    color: royalblue;
+    padding: 1rem;
+}
+
+.countdown-container > form > input {
+    border: 2px solid royalblue;
+}
+
+.countdown-submit {
+    padding: 0.5rem;
+    margin: 1rem 0 0 0;
+    border-radius: 10px;
+    background-color:black;
+    border: 2px solid royalblue;
+    color: royalblue;
 }
 
 @media screen and (max-width: 1100px){
