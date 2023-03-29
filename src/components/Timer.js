@@ -14,17 +14,30 @@ function Timer(){
   const [timerActive, setTimerActive] = useState(false);
   const [timerInterval, setTimerInterval] = useState();
   const [countdownActive, setCountdownActive] = useState(false);
+  const [direction, setDirection] = useState(1);
 
+  /**
+   * useEffect hook that will put the timer in a incrementing/decrementing state or pause state.
+   * When the direction variable is greater than or equal to zero the timer will move forwards, when the direction 
+   * variable is less than zero it will move backwards.
+   */
   useEffect(() => {
     if (timerActive){
       setTimerInterval(setInterval(() => {
-        setTime(time => time + 1);
+        if (direction >= 0){
+          setTime(time => time + 1);
+        } else {
+          setTime(time => time - 1);
+        }
       }, 1000));
     } else {
       clearInterval(timerInterval);
     }
   }, [timerActive]);
 
+  /**
+   * Toggles the timer between a incrementing/decrementing state or pause state.
+   */
   function toggleTimer(){
     timerActive ? setTimerActive(false) : setTimerActive(true);
   }
