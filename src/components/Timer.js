@@ -11,7 +11,7 @@ import '../styles/timer.css';
 function Timer(){
 
   const [time, setTime] = useState(0);
-  const [timerActive, setTimerActive] = useState(false);
+  const [stopwatchActive, setStopwatchActive] = useState(false);
   const [timerInterval, setTimerInterval] = useState();
   const [countdownActive, setCountdownActive] = useState(false);
   const [direction, setDirection] = useState(1);
@@ -22,7 +22,7 @@ function Timer(){
    * variable is less than zero it will move backwards.
    */
   useEffect(() => {
-    if (timerActive){
+    if (stopwatchActive){
       setTimerInterval(setInterval(() => {
         if (direction > 0){
           setTime(time => time + 1);
@@ -33,7 +33,7 @@ function Timer(){
     } else {
       clearInterval(timerInterval);
     }
-  }, [timerActive]);
+  }, [stopwatchActive]);
 
   /**
    * Use effect hook that will signal when the timer has ticked down to 0
@@ -41,7 +41,7 @@ function Timer(){
   useEffect(() => {
     if (time <= 0) {
       console.log("stopwatch complete")
-      setTimerActive(false);
+      setStopwatchActive(false);
       setDirection(1);
     }
   }, [time]);
@@ -50,14 +50,14 @@ function Timer(){
    * Toggles the timer between a incrementing/decrementing state or pause state.
    */
   function toggleTimer(){
-    timerActive ? setTimerActive(false) : setTimerActive(true);
+    stopwatchActive ? setStopwatchActive(false) : setStopwatchActive(true);
   }
 
   /**
    * Pauses the timer and sets the time to 00:00:00
    */
   function resetTimer(){
-    setTimerActive(false);
+    setStopwatchActive(false);
     setTime(0);
     setDirection(1);
   }
@@ -67,7 +67,7 @@ function Timer(){
    */
   function displayCountdownWindow(){
     setCountdownActive(true);
-    setTimerActive(false);
+    setStopwatchActive(false);
   }
 
   /**
@@ -84,7 +84,7 @@ function Timer(){
     let totalSeconds = (hours * (60**2)) + (minutes * 60) + seconds;
     setTime(totalSeconds);
     setDirection(-1);
-    setTimerActive(true);
+    setStopwatchActive(true);
   }
 
   return (
@@ -96,7 +96,7 @@ function Timer(){
           <CountdownInputs setCountdown={setCountdown} turnOffCountdown={closeCountdownWindow} />
       ) : (
       <div className="button-container">
-        <StartToggle onClickToggle={toggleTimer} isTimerActive={timerActive} />
+        <StartToggle onClickToggle={toggleTimer} isStopwatchActive={stopwatchActive} />
         <ResetButton reset={resetTimer} />
         <CountdownButton countdownActiveOnClick={displayCountdownWindow}/>
       </div>
