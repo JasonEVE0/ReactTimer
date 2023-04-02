@@ -2,7 +2,7 @@ import React from "react";
 
 import StartToggle from "./StartToggle";
 import ResetButton from "./ResetButton";
-import CountdownButton from "./CountdownButton";
+import TimerButton from "./TimerButton";
 
 function StopwatchInputs(props) {
   return (
@@ -12,7 +12,7 @@ function StopwatchInputs(props) {
         isStopwatchActive={props.stopwatchActive}
       />
       <ResetButton reset={props.resetTime} />
-      <CountdownButton countdownActiveOnClick={props.displayCountdownWindow} />
+      <TimerButton timerActiveOnClick={props.displayCountdownWindow} />
     </div>
   );
 }

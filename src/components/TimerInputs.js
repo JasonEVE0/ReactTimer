@@ -2,7 +2,7 @@ import React from "react";
 
 import "../styles/timer.css";
 
-function CountdownInputs(props) {
+function TimerInputs(props) {
   function submitCountdown() {
     let hours = Number(document.querySelector("#hours").value);
     let minutes = Number(document.querySelector("#minutes").value);
@@ -42,4 +42,4 @@ function CountdownInputs(props) {
   );
 }
 
-export default CountdownInputs;
+export default TimerInputs;

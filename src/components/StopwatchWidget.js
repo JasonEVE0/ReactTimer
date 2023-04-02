@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 
 import TimerDisplay from "./TimerDisplay";
-import CountdownInputs from "./CountdownInputs";
+import TimerInputs from "./TimerInputs";
 import StopwatchInputs from "./StopwatchInputs";
 
 import "../styles/timer.css";
 
-function Timer() {
+function StopwatchWidget() {
   const [time, setTime] = useState(0);
   const [stopwatchActive, setStopwatchActive] = useState(false);
-  const [timerInterval, setTimerInterval] = useState();
-  const [countdownActive, setCountdownActive] = useState(false);
+  const [timerActive, setTimerActive] = useState(false);
   const [direction, setDirection] = useState(1);
+
+  const [timerInterval, setTimerInterval] = useState(); // this state holds the setInterval() so it can be cleared
 
   /**
    * useEffect hook that will put the timer in a incrementing/decrementing state or pause state.
@@ -65,7 +66,7 @@ function Timer() {
    * Displays the countdown input menu
    */
   function displayCountdownWindow() {
-    setCountdownActive(true);
+    setTimerActive(true);
     setStopwatchActive(false);
   }
 
@@ -73,7 +74,7 @@ function Timer() {
    * Closes the countdown input menu
    */
   function closeCountdownWindow() {
-    setCountdownActive(false);
+    setTimerActive(false);
   }
 
   /**
@@ -91,8 +92,8 @@ function Timer() {
       <div className="display-container">
         <TimerDisplay time={time} />
       </div>
-      {countdownActive ? (
-        <CountdownInputs
+      {timerActive ? (
+        <TimerInputs
           setCountdown={setCountdown}
           turnOffCountdown={closeCountdownWindow}
         />
@@ -108,4 +109,4 @@ function Timer() {
   );
 }
 
-export default Timer;
+export default StopwatchWidget;
