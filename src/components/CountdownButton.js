@@ -1,8 +1,10 @@
 import React from "react";
 
-function CountdownButton(props){
+function CountdownButton(props) {
   return (
-    <button className="timer-button" onClick={props.countdownActiveOnClick}>Countdown</button>
+    <button className="timer-button" onClick={props.countdownActiveOnClick}>
+      Countdown
+    </button>
   );
 }
 

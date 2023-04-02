@@ -1,10 +1,9 @@
 import React from "react";
 
-import "../styles/timer.css"
+import "../styles/timer.css";
 
-function CountdownInputs(props){
-
-  function submitCountdown(){
+function CountdownInputs(props) {
+  function submitCountdown() {
     let hours = Number(document.querySelector("#hours").value);
     let minutes = Number(document.querySelector("#minutes").value);
     let seconds = Number(document.querySelector("#seconds").value);
@@ -12,7 +11,7 @@ function CountdownInputs(props){
     props.setCountdown(hours, minutes, seconds);
   }
 
-  function completeCountdown(){
+  function completeCountdown() {
     submitCountdown();
     props.turnOffCountdown();
   }
@@ -32,7 +31,12 @@ function CountdownInputs(props){
         <input type="text" name="seconds" id="seconds"></input>
         <br />
 
-        <input className="countdown-submit" onClick={completeCountdown} type="button" value="Start Countdown"></input>
+        <input
+          className="countdown-submit"
+          onClick={completeCountdown}
+          type="button"
+          value="Start Countdown"
+        ></input>
       </form>
     </div>
   );

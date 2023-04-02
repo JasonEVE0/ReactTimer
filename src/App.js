@@ -1,4 +1,4 @@
-import StopwatchWidget from './components/StopwatchWidget';
+import StopwatchWidget from "./components/StopwatchWidget";
 
 function App() {
   return (
