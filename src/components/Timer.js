@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import TimerDisplay from "./TimerDisplay";
-import StartToggle from "./StartToggle";
-import ResetButton from "./ResetButton";
-import CountdownButton from "./CountdownButton";
 import CountdownInputs from "./CountdownInputs";
+import StopwatchInputs from "./StopwatchInputs";
 
 import '../styles/timer.css';
 
@@ -56,7 +54,7 @@ function Timer(){
   /**
    * Pauses the timer and sets the time to 00:00:00
    */
-  function resetTimer(){
+  function resetTime(){
     setStopwatchActive(false);
     setTime(0);
     setDirection(1);
@@ -93,13 +91,17 @@ function Timer(){
         <TimerDisplay time={time} />
       </div>
       { countdownActive ? (
-          <CountdownInputs setCountdown={setCountdown} turnOffCountdown={closeCountdownWindow} />
+        <CountdownInputs 
+          setCountdown={setCountdown} 
+          turnOffCountdown={closeCountdownWindow} 
+        />
       ) : (
-      <div className="button-container">
-        <StartToggle onClickToggle={toggleTimer} isStopwatchActive={stopwatchActive} />
-        <ResetButton reset={resetTimer} />
-        <CountdownButton countdownActiveOnClick={displayCountdownWindow}/>
-      </div>
+        <StopwatchInputs 
+          toggleTimer={toggleTimer} 
+          stopwatchActive={stopwatchActive} 
+          resetTime={resetTime}
+          displayCountdownWindow={displayCountdownWindow}
+        />
       )}
     </div>
   );
