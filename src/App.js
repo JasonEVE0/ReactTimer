@@ -1,9 +1,9 @@
-import Timer from './components/Timer';
+import StopwatchWidget from './components/StopwatchWidget';
 
 function App() {
   return (
     <div className="App">
-      <Timer />
+      <StopwatchWidget />
     </div>
   );
 }
