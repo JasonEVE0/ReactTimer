@@ -5,22 +5,23 @@ import TimerInputs from "./TimerInputs";
 import StopwatchInputs from "./StopwatchInputs";
 
 import "../styles/timer.css";
+import TimerSetting from "./TimerSetting";
 
 function StopwatchWidget() {
-  const [time, setTime] = useState(0);
-  const [stopwatchActive, setStopwatchActive] = useState(false);
-  const [timerActive, setTimerActive] = useState(false);
-  const [direction, setDirection] = useState(1);
-
-  const [timerInterval, setTimerInterval] = useState(); // this state holds the setInterval() so it can be cleared
+  const [time, setTime] = useState(0); // stores the value of the time
+  const [isTimeActive, setIsTimeActive] = useState(false); // stores whether the time is paused or continuing
+  const [direction, setDirection] = useState(1); // stores the time direction, forward or backward
+  const [stopwatchActive, setStopwatchActive] = useState(true); // stores whether the stopwatch is currently active
+  const [timerActive, setTimerActive] = useState(false); // stores whether the timer is currently active
+  const [timerSettingPanelActive, setTimerSettingPanelActive] = useState(false); // stores status of timer setting panel
+  const [timerStartingValue, setTimerStartingValue] = useState(0); // stores the set time of the timer
+  const [timerInterval, setTimerInterval] = useState(); // this state holds the time setInterval() so it can be cleared
 
   /**
-   * useEffect hook that will put the timer in a incrementing/decrementing state or pause state.
-   * When the direction variable is greater than zero the timer will move forwards, when the direction
-   * variable is less than zero it will move backwards.
+   * useEffect hook that will put the timer in a pause or continuous state.
    */
   useEffect(() => {
-    if (stopwatchActive) {
+    if (isTimeActive) {
       setTimerInterval(
         setInterval(() => {
           if (direction > 0) {
@@ -33,58 +34,54 @@ function StopwatchWidget() {
     } else {
       clearInterval(timerInterval);
     }
-  }, [stopwatchActive]);
+  }, [isTimeActive]);
 
   /**
-   * Use effect hook that will signal when the timer has ticked down to 0
+   * useEffect hook that will signal when the timer has ticked down to 0
    */
   useEffect(() => {
-    if (time <= 0) {
-      console.log("stopwatch complete");
-      setStopwatchActive(false);
-      setDirection(1);
+    if (time <= 0 && timerActive) {
+      setTime(0);
+      setIsTimeActive(false);
     }
   }, [time]);
 
-  /**
-   * Toggles the timer between a incrementing/decrementing state or pause state.
-   */
-  function toggleTimer() {
-    stopwatchActive ? setStopwatchActive(false) : setStopwatchActive(true);
+  function turnTimeOn() {
+    setIsTimeActive(true);
   }
 
-  /**
-   * Pauses the timer and sets the time to 00:00:00
-   */
+  function turnTimeOff() {
+    setIsTimeActive(false);
+  }
+
   function resetTime() {
-    setStopwatchActive(false);
-    setTime(0);
-    setDirection(1);
+    if (stopwatchActive) {
+      setTime(0);
+      setIsTimeActive(false);
+    } else if (timerActive) {
+      setTime(timerStartingValue);
+      setIsTimeActive(false);
+    }
   }
 
-  /**
-   * Displays the countdown input menu
-   */
-  function displayCountdownWindow() {
-    setTimerActive(true);
-    setStopwatchActive(false);
-  }
-
-  /**
-   * Closes the countdown input menu
-   */
-  function closeCountdownWindow() {
-    setTimerActive(false);
-  }
-
-  /**
-   * Sets the timer from the countdown inputs and flips the timer direction
-   */
-  function setCountdown(hours, minutes, seconds) {
+  function startTimer(hours, minutes, seconds) {
     let totalSeconds = hours * 60 ** 2 + minutes * 60 + seconds;
+    setIsTimeActive(false);
+    setTimerStartingValue(totalSeconds);
     setTime(totalSeconds);
     setDirection(-1);
+    setStopwatchActive(false);
+    setTimerSettingPanelActive(false);
+    setTimerActive(true);
+  }
+
+  function startStopwatch() {
+    setIsTimeActive(false);
+    setTime(0);
+    setDirection(1);
     setStopwatchActive(true);
+    setTimerSettingPanelActive(false);
+    setTimerActive(false);
   }
 
   return (
@@ -92,17 +89,28 @@ function StopwatchWidget() {
       <div className="display-container">
         <TimerDisplay time={time} />
       </div>
-      {timerActive ? (
+
+      {timerSettingPanelActive && <TimerSetting startTimer={startTimer} />}
+
+      {timerActive && (
         <TimerInputs
-          setCountdown={setCountdown}
-          turnOffCountdown={closeCountdownWindow}
-        />
-      ) : (
-        <StopwatchInputs
-          toggleTimer={toggleTimer}
-          stopwatchActive={stopwatchActive}
+          isTimeActive={isTimeActive}
+          turnTimeOn={turnTimeOn}
+          turnTimeOff={turnTimeOff}
           resetTime={resetTime}
-          displayCountdownWindow={displayCountdownWindow}
+          startStopwatch={startStopwatch}
+        />
+      )}
+
+      {stopwatchActive && (
+        <StopwatchInputs
+          isTimeActive={isTimeActive}
+          turnTimeOn={turnTimeOn}
+          turnTimeOff={turnTimeOff}
+          resetTime={resetTime}
+          setTimerSettingPanelActive={setTimerSettingPanelActive}
+          setTimerActive={setTimerActive}
+          setStopwatchActive={setStopwatchActive}
         />
       )}
     </div>

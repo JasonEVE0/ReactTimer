@@ -1,18 +1,25 @@
 import React from "react";
 
-import StartToggle from "./StartToggle";
+import StartButton from "./StartButton";
 import ResetButton from "./ResetButton";
 import TimerButton from "./TimerButton";
+import LapTrackingButton from "./LapTrackingButton";
 
 function StopwatchInputs(props) {
   return (
     <div className="button-container">
-      <StartToggle
-        onClickToggle={props.toggleTimer}
-        isStopwatchActive={props.stopwatchActive}
+      <StartButton
+        isTimeActive={props.isTimeActive}
+        turnTimeOn={props.turnTimeOn}
+        turnTimeOff={props.turnTimeOff}
       />
       <ResetButton reset={props.resetTime} />
-      <TimerButton timerActiveOnClick={props.displayCountdownWindow} />
+      <TimerButton
+        setTimerSettingPanelActive={props.setTimerSettingPanelActive}
+        setTimerActive={props.setTimerActive}
+        setStopwatchActive={props.setStopwatchActive}
+      />
+      <LapTrackingButton />
     </div>
   );
 }
