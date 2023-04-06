@@ -64,6 +64,10 @@
     border: 1px solid royalblue;
 }
 
+.widget-button:active {
+    background-color: cornflowerblue;
+}
+
 .lap-list {
     margin: 0;
     padding: 0;
