@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import TimerDisplay from "./TimerDisplay";
 import TimerInputs from "./TimerInputs";
 import StopwatchInputs from "./StopwatchInputs";
+import TimerSetting from "./TimerSetting";
 
 import "../styles/timer.css";
-import TimerSetting from "./TimerSetting";
+import alarm from "../soundfiles/alarm.mp3";
 
 function StopwatchWidget() {
   const [time, setTime] = useState(0); // stores the value of the time
@@ -16,6 +17,7 @@ function StopwatchWidget() {
   const [timerSettingPanelActive, setTimerSettingPanelActive] = useState(false); // stores status of timer setting panel
   const [timerStartingValue, setTimerStartingValue] = useState(0); // stores the set time of the timer
   const [timerInterval, setTimerInterval] = useState(); // this state holds the time setInterval() so it can be cleared
+  const audio = useRef(null);
 
   /**
    * useEffect hook that will put the timer in a pause or continuous state.
@@ -41,6 +43,7 @@ function StopwatchWidget() {
    */
   useEffect(() => {
     if (time <= 0 && timerActive) {
+      audio.current.play();
       setTime(0);
       setIsTimeActive(false);
     }
@@ -89,6 +92,8 @@ function StopwatchWidget() {
       <div className="display-container">
         <TimerDisplay time={time} />
       </div>
+
+      <audio src={alarm} ref={audio} />
 
       {timerSettingPanelActive && <TimerSetting startTimer={startTimer} />}
 
