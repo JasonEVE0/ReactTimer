@@ -19,7 +19,7 @@ function StopwatchWidget() {
   const [timerInterval, setTimerInterval] = useState(); // this state holds the time setInterval() so it can be cleared
   const audio = useRef(null); // references the timer alarm
   const [lapList, setLapList] = useState([]); // stores the tracked laps
-  const [resetLaps, setResetLaps] = useState();
+  const [resetLaps, setResetLaps] = useState(); // stores whether to reset the lap times
 
   /**
    * useEffect hook that will put the timer in a pause or continuous state.
