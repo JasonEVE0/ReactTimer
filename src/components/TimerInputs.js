@@ -12,7 +12,7 @@ function TimerInputs(props) {
         turnTimeOn={props.turnTimeOn}
         turnTimeOff={props.turnTimeOff}
       />
-      <ResetButton reset={props.resetTime} />
+      <ResetButton reset={props.resetTime} setResetLaps={props.setResetLaps} />
       <StopwatchButton
         setTimerSettingPanelActive={props.setTimerSettingPanelActive}
         setTimerActive={props.setTimerActive}

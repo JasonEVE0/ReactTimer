@@ -13,13 +13,17 @@ function StopwatchInputs(props) {
         turnTimeOn={props.turnTimeOn}
         turnTimeOff={props.turnTimeOff}
       />
-      <ResetButton reset={props.resetTime} />
+      <ResetButton reset={props.resetTime} setResetLaps={props.setResetLaps} />
       <TimerButton
         setTimerSettingPanelActive={props.setTimerSettingPanelActive}
         setTimerActive={props.setTimerActive}
         setStopwatchActive={props.setStopwatchActive}
       />
-      <LapTrackingButton />
+      <LapTrackingButton
+        time={props.time}
+        lapList={props.lapList}
+        setLapList={props.setLapList}
+      />
     </div>
   );
 }

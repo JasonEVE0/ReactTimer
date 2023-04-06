@@ -17,7 +17,9 @@ function StopwatchWidget() {
   const [timerSettingPanelActive, setTimerSettingPanelActive] = useState(false); // stores status of timer setting panel
   const [timerStartingValue, setTimerStartingValue] = useState(0); // stores the set time of the timer
   const [timerInterval, setTimerInterval] = useState(); // this state holds the time setInterval() so it can be cleared
-  const audio = useRef(null);
+  const audio = useRef(null); // references the timer alarm
+  const [lapList, setLapList] = useState([]); // stores the tracked laps
+  const [resetLaps, setResetLaps] = useState();
 
   /**
    * useEffect hook that will put the timer in a pause or continuous state.
@@ -69,6 +71,7 @@ function StopwatchWidget() {
 
   function startTimer(hours, minutes, seconds) {
     let totalSeconds = hours * 60 ** 2 + minutes * 60 + seconds;
+    setResetLaps(totalSeconds);
     setIsTimeActive(false);
     setTimerStartingValue(totalSeconds);
     setTime(totalSeconds);
@@ -90,7 +93,7 @@ function StopwatchWidget() {
   return (
     <div className="timer-container">
       <div className="display-container">
-        <TimerDisplay time={time} />
+        <TimerDisplay time={time} lapList={lapList} resetLaps={resetLaps} />
       </div>
 
       <audio src={alarm} ref={audio} />
@@ -104,6 +107,7 @@ function StopwatchWidget() {
           turnTimeOff={turnTimeOff}
           resetTime={resetTime}
           startStopwatch={startStopwatch}
+          setResetLaps={setResetLaps}
         />
       )}
 
@@ -116,6 +120,10 @@ function StopwatchWidget() {
           setTimerSettingPanelActive={setTimerSettingPanelActive}
           setTimerActive={setTimerActive}
           setStopwatchActive={setStopwatchActive}
+          time={time}
+          lapList={lapList}
+          setLapList={setLapList}
+          setResetLaps={setResetLaps}
         />
       )}
     </div>

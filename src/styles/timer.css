@@ -9,7 +9,7 @@
 .display-container {
     text-align: center;
     background-color: rgb(19, 19, 19);
-    padding: 1.5rem;
+    padding: 1rem;
 }
 
 .display-container > h2 {
@@ -62,4 +62,11 @@
     font-weight: bold;
     color: royalblue;
     border: 1px solid royalblue;
+}
+
+.lap-list {
+    margin: 0;
+    padding: 0;
+    color: royalblue;
+    list-style: none;
 }
