@@ -3,8 +3,8 @@
 # How to use
 1. clone the project
 2. navigate to the folder
-2. > npm install
-2. > npm start
+2. npm install
+2. npm start
 
 # Details
 The widget is made up of a stopwatch and timer, the user can easily switch between these modes by clicking the timer/stopwatch button.
